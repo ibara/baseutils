@@ -41,10 +41,6 @@
 #define __dead		__attribute__((__noreturn__))
 #endif
 
-#ifndef __unused
-#define __unused	__attribute__((__unused__))
-#endif
-
 #ifndef _PATH_DEFTAPE
 #define _PATH_DEFTAPE "/dev/rst0"
 #endif
@@ -63,6 +59,10 @@
 
 #ifndef ALIGNBYTES
 #define ALIGNBYTES	(sizeof(long) - 1)
+#endif
+
+#ifndef ALLPERMS
+#define ALLPERMS	0007777
 #endif
 
 #ifndef ARG_MAX

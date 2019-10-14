@@ -41,6 +41,10 @@
 #include <unistd.h>
 #include "defs.h"
 
+#ifndef __unused
+#define __unused	__attribute__((__unused__))
+#endif
+
 char dflag;
 char lflag;
 char rflag;

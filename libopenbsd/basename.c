@@ -24,7 +24,7 @@
 #include "openbsd.h"
 
 char *
-basename(const char *path)
+openbsd_basename(const char *path)
 {
 	static char bname[PATH_MAX];
 	size_t len;

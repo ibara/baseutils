@@ -35,6 +35,7 @@
 #include <string.h>
 #include <stdlib.h>
 
+#include "openbsd.h"
 #include "vis.h"
 
 #define	isoctal(c)	(((u_char)(c)) >= '0' && ((u_char)(c)) <= '7')

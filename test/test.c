@@ -163,7 +163,7 @@ main(int argc, char *argv[])
 	if (pledge("stdio rpath", NULL) == -1)
 		err(2, "pledge");
 
-	if (strcmp(basename(argv[0]), "[") == 0) {
+	if (strcmp(openbsd_basename(argv[0]), "[") == 0) {
 		if (strcmp(argv[--argc], "]"))
 			errx(2, "missing ]");
 		argv[argc] = NULL;

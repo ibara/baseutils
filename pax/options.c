@@ -257,7 +257,7 @@ options(int argc, char **argv)
 	/*
 	 * Are we acting like pax, tar or cpio (based on argv[0])
 	 */
-	argv0 = basename(argv[0]);
+	argv0 = openbsd_basename(argv[0]);
 
 	if (strcmp(NM_TAR, argv0) == 0) {
 		op_mode = OP_TAR;

@@ -43,7 +43,7 @@ main(int argc, char *argv[])
 	char *arch, *opts, os[80];
 
 	uname(&u);
-	machine = strcmp(basename(argv[0]), "machine") == 0;
+	machine = strcmp(openbsd_basename(argv[0]), "machine") == 0;
 	if (machine) {
 		arch = MACHINE;
 		opts = "a";

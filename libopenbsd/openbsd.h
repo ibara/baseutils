@@ -2,7 +2,11 @@
  * libopenbsd header file
  */
 
+#include <sys/stat.h>
+#include <sys/types.h>
+
 #include <fcntl.h>
+#include <fts.h>
 #include <stdarg.h>
 #include <string.h>
 #include <unistd.h>
@@ -25,6 +29,22 @@
 #define _PATH_DEFTAPE "/dev/rst0"
 #endif
 
+#ifndef ACCESSPERMS
+#define ACCESSPERMS	0000777
+#endif
+
+#ifndef ALIGN
+#define ALIGN(p) (((unsigned long)(p) + (sizeof(long) - 1)) &~(sizeof(long) - 1))
+#endif
+
+#ifndef ALIGNBYTES
+#define ALIGNBYTES	(sizeof(long) - 1)
+#endif
+
+#ifndef DEFFILEMODE
+#define DEFFILEMODE	0000666
+#endif
+
 #ifndef EFTYPE
 #define EFTYPE	EPERM
 #endif
@@ -35,6 +55,10 @@
 
 #ifndef MAXBSIZE
 #define MAXBSIZE 65536
+#endif
+
+#ifndef REG_STARTEND
+#define REG_STARTEND	00004
 #endif
 
 #ifndef S_ISTXT
@@ -92,18 +116,23 @@
 	} while (0)
 #endif
 
-#undef basename
-
 extern void	 arc4random_buf(char *, size_t);
-extern char	*basename(const char *);
 extern void	 errc(int, int, const char *, ...);
 extern int	 fmt_scaled(long long, char *);
+extern FTSENT	*fts_children(FTS *, int);
+extern int	 fts_close(FTS *);
+extern FTS	*fts_open(char * const *, int,
+			  int(*)(const FTSENT **, const FTSENT **));
+extern FTSENT	*fts_read(FTS *);
+extern int	 fts_set(FTS *, FTSENT *, int);
 extern char	*getbsize(int *, long *);
 extern mode_t	 getmode(const void *, mode_t);
 extern int	 gid_from_group(const char *, gid_t *);
 extern const char *group_from_gid(gid_t, int);
+extern char	*openbsd_basename(const char *);
 extern int	 pledge(const char *, const char *);
 extern void	*reallocarray(void *, size_t, size_t);
+extern void	*recallocarray(void *, size_t, size_t, size_t);
 extern int	 scan_scaled(char *, long long *);
 extern void	*setmode(const char *);
 extern int	 stravis(char **, const char *, int);

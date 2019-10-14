@@ -137,7 +137,7 @@ linkit(char *target, char *source, int isdir)
 
 	/* If the source is a directory, append the target's name. */
 	if (isdir || (!statf(source, &sb) && S_ISDIR(sb.st_mode))) {
-		if ((p = basename(target)) == NULL) {
+		if ((p = openbsd_basename(target)) == NULL) {
 			warn("%s", target);
 			return (1);
 		}

@@ -535,7 +535,7 @@ docompress(const char *in, char *out, const struct compressor *method,
 	}
 
 	if (!pipin && storename) {
-		name = basename(in);
+		name = openbsd_basename(in);
 		mtime = (u_int32_t)sb->st_mtime;
 	}
 	if ((cookie = method->wopen(ofd, name, bits, mtime)) == NULL) {
@@ -667,7 +667,7 @@ dodecompress(const char *in, char *out, struct stat *sb)
 		return (FAILURE);
 	}
 	if (storename && oldname[0] != '\0') {
-		char *oldbase = basename(oldname);
+		char *oldbase = openbsd_basename(oldname);
 		char *cp = strrchr(out, '/');
 		if (cp != NULL) {
 			*(cp + 1) = '\0';

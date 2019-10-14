@@ -1279,7 +1279,7 @@ ar_start_gzip(int fd, const char *path, int wr)
 		close(fds[1]);
 
 		/* System compressors are more likely to use pledge(2) */
-		putenv("PATH=/usr/bin:/usr/local/bin");
+		putenv("PATH=/usr/bin:/usr/local/bin:/opt/bin:/usr/ucb/bin");
 
 		if (execlp(path, path, gzip_flags, (char *)NULL) == -1)
 			err(1, "could not exec %s", path);

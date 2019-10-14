@@ -14,6 +14,15 @@ the `MANDIR` environment variable during `sudo make install`, for
 example:
 `sudo make MANDIR=/usr/share/man install`.
 
+Some installation recommendations:
+* `sudo make PREFIX=/ MANDIR=/usr/share/man install` for global installation
+* `sudo make PREFIX=/usr MANDIR=/usr/share/man install` for another type of global installation
+* `sudo make PREFIX=/usr/local MANDIR=/usr/local/share/man` for package installation
+* `sudo make PREFIX=/opt MANDIR=/opt/share/man` for pkgsrc installation
+* `sudo make PREFIX=/usr/ucb MANDIR=/usr/ucb/share/man` for Sun-style *BSD utility installation
+
+Don't forget to add $PREFIX/bin to your $PATH in order to use these utilities!
+
 Building
 --------
 You will need BSD make or GNU make, or another make that understands
@@ -27,7 +36,7 @@ Testing
 `baseutils` is built on Void Linux for glibc testing and Alpine
 Linux for musl-libc compatibility.
 
-FreeBSD, NetBSD, and DragonFly BSD testing appreciated.
+Mac OS X, FreeBSD, NetBSD, and DragonFly BSD testing appreciated.
 
 Testing on other operating systems appreciated as well.
 

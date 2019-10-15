@@ -29,47 +29,31 @@
  *
  * *****************************************************************************
  *
- * The entry point for bc.
+ * Code to handle special I/O for bc.
  *
  */
 
-#include <stdlib.h>
-#include <string.h>
+#ifndef BC_IO_H
+#define BC_IO_H
 
-#include <locale.h>
-#include <libgen.h>
+#include <stdlib.h>
 
 #include <status.h>
-#include <vm.h>
-#include <bc.h>
-#include <dc.h>
+#include <vector.h>
 
-BcVm *vm;
+#ifndef BC_ENABLE_PROMPT
+#define BC_ENABLE_PROMPT (1)
+#endif // BC_ENABLE_PROMPT
 
-int main(int argc, char *argv[]) {
+#if !BC_ENABLE_PROMPT
+#define bc_read_line(vec, prompt) bc_read_line(vec)
+#define bc_read_chars(vec, prompt) bc_read_chars(vec)
+#endif // BC_ENABLE_PROMPT
 
-	int s;
-	char *name;
-	size_t len = strlen(BC_EXECPREFIX);
+#define BC_READ_BIN_CHAR(c) (((c) < ' ' && !isspace((c))) || ((uchar) c) > '~')
 
-	vm = calloc(1, sizeof(BcVm));
-	if (BC_ERR(vm == NULL)) return (int) bc_vm_err(BC_ERROR_FATAL_ALLOC_ERR);
+BcStatus bc_read_line(BcVec *vec, const char *prompt);
+BcStatus bc_read_file(const char *path, char **buf);
+BcStatus bc_read_chars(BcVec *vec, const char *prompt);
 
-	vm->locale = setlocale(LC_ALL, "");
-
-	name = strrchr(argv[0], '/');
-	vm->name = (name == NULL) ? argv[0] : name + 1;
-
-	if (strlen(vm->name) > len) vm->name += len;
-
-#if !DC_ENABLED
-	s = bc_main(argc, argv);
-#elif !BC_ENABLED
-	s = dc_main(argc, argv);
-#else
-	if (BC_IS_BC) s = bc_main(argc, argv);
-	else s = dc_main(argc, argv);
-#endif
-
-	return s;
-}
+#endif // BC_IO_H

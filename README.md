@@ -60,7 +60,7 @@ Utilities
 * `awk(1)`
 * `banner(1)`
 * `basename(1)`
-* `bc(1)` (from NetBSD)
+* `bc(1)` (from https://github.com/gavinhoward/bc)
 * `biff(1)`
 * `cat(1)`
 * `ci(1)`
@@ -77,6 +77,7 @@ Utilities
 * `ctags(1)`
 * `cut(1)`
 * `date(1)`
+* `dc(1)` (from https://github.com/gavinhoward/bc)
 * `dd(1)`
 * `deroff(1)`
 * `diff(1)`

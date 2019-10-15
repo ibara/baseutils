@@ -29,47 +29,36 @@
  *
  * *****************************************************************************
  *
- * The entry point for bc.
+ * The main procedure of dc.
  *
  */
 
-#include <stdlib.h>
+#if DC_ENABLED
+
 #include <string.h>
 
-#include <locale.h>
-#include <libgen.h>
-
 #include <status.h>
-#include <vm.h>
-#include <bc.h>
 #include <dc.h>
+#include <vm.h>
 
-BcVm *vm;
+int dc_main(int argc, char **argv) {
 
-int main(int argc, char *argv[]) {
+	BcStatus s;
 
-	int s;
-	char *name;
-	size_t len = strlen(BC_EXECPREFIX);
+	vm->read_ret = BC_INST_POP_EXEC;
+	vm->help = dc_help;
+#if BC_ENABLE_SIGNALS
+	vm->sigmsg = dc_sig_msg;
+	vm->siglen = (uchar) strlen(vm->sigmsg);
+#endif // BC_ENABLE_SIGNALS
 
-	vm = calloc(1, sizeof(BcVm));
-	if (BC_ERR(vm == NULL)) return (int) bc_vm_err(BC_ERROR_FATAL_ALLOC_ERR);
+	vm->next = dc_lex_token;
+	vm->parse = dc_parse_parse;
+	vm->expr = dc_parse_expr;
+	vm->flags |= BC_FLAG_P;
 
-	vm->locale = setlocale(LC_ALL, "");
+	s = bc_vm_boot(argc, argv, "DC_LINE_LENGTH", "DC_ENV_ARGS", "DC_EXPR_EXIT");
 
-	name = strrchr(argv[0], '/');
-	vm->name = (name == NULL) ? argv[0] : name + 1;
-
-	if (strlen(vm->name) > len) vm->name += len;
-
-#if !DC_ENABLED
-	s = bc_main(argc, argv);
-#elif !BC_ENABLED
-	s = dc_main(argc, argv);
-#else
-	if (BC_IS_BC) s = bc_main(argc, argv);
-	else s = dc_main(argc, argv);
-#endif
-
-	return s;
+	return (int) s;
 }
+#endif // DC_ENABLED

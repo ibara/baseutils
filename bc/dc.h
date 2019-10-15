@@ -29,47 +29,39 @@
  *
  * *****************************************************************************
  *
- * The entry point for bc.
+ * Definitions for bc.
  *
  */
 
-#include <stdlib.h>
-#include <string.h>
+#ifndef BC_DC_H
+#define BC_DC_H
 
-#include <locale.h>
-#include <libgen.h>
+#if DC_ENABLED
 
 #include <status.h>
-#include <vm.h>
-#include <bc.h>
-#include <dc.h>
+#include <lex.h>
+#include <parse.h>
 
-BcVm *vm;
+int dc_main(int argc, char **argv);
 
-int main(int argc, char *argv[]) {
+extern const char dc_help[];
 
-	int s;
-	char *name;
-	size_t len = strlen(BC_EXECPREFIX);
+BcStatus dc_lex_token(BcLex *l);
+bool dc_lex_negCommand(BcLex *l);
 
-	vm = calloc(1, sizeof(BcVm));
-	if (BC_ERR(vm == NULL)) return (int) bc_vm_err(BC_ERROR_FATAL_ALLOC_ERR);
+#if BC_ENABLE_SIGNALS
+extern const char dc_sig_msg[];
+#endif // BC_ENABLE_SIGNALS
 
-	vm->locale = setlocale(LC_ALL, "");
+extern const uint8_t dc_lex_regs[];
+extern const size_t dc_lex_regs_len;
 
-	name = strrchr(argv[0], '/');
-	vm->name = (name == NULL) ? argv[0] : name + 1;
+extern const uint8_t dc_lex_tokens[];
+extern const uint8_t dc_parse_insts[];
 
-	if (strlen(vm->name) > len) vm->name += len;
+BcStatus dc_parse_parse(BcParse *p);
+BcStatus dc_parse_expr(BcParse *p, uint8_t flags);
 
-#if !DC_ENABLED
-	s = bc_main(argc, argv);
-#elif !BC_ENABLED
-	s = dc_main(argc, argv);
-#else
-	if (BC_IS_BC) s = bc_main(argc, argv);
-	else s = dc_main(argc, argv);
-#endif
+#endif // DC_ENABLED
 
-	return s;
-}
+#endif // BC_DC_H

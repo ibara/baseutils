@@ -498,8 +498,8 @@ display(FTSENT *p, FTSENT *list)
 					user = nuser;
 					group = ngroup;
 				} else {
-					user = getpwuid(sp->st_uid)->pw_name;
-					group = getgrgid(sp->st_gid)->gr_name;
+					user = user_from_uid(sp->st_uid, 0);
+					group = group_from_gid(sp->st_gid, 0);
 				}
 				if ((ulen = strlen(user)) > maxuser)
 					maxuser = ulen;

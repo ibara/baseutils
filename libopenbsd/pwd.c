@@ -23,8 +23,9 @@ gid_from_group(const char *name, gid_t *gid)
 const char *
 group_from_gid(gid_t gid, int nogroup)
 {
-
-	return (getgrgid(gid)->gr_name);
+	if (getgrgid(gid) != NULL)
+		return (getgrgid(gid)->gr_name);
+	return (getgrgid(nogroup)->gr_name);
 }
 
 int
@@ -43,6 +44,7 @@ uid_from_user(const char *name, uid_t *uid)
 const char *
 user_from_uid(uid_t uid, int nouser)
 {
-
-	return (getpwuid(uid)->pw_name);
+	if (getpwuid(uid) != NULL)
+		return (getpwuid(uid)->pw_name);
+	return (getpwuid(nouser)->pw_name);
 }

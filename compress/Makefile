@@ -2,7 +2,7 @@
 
 CC ?=		cc
 CFLAGS ?=	-O2 -pipe
-CFLAGS +=	-I../libopenbsd -include openbsd.h
+CFLAGS +=	-I../libopenbsd -include openbsd.h -fcommon
 
 LIBS =	../libz/libz.a ../libopenbsd/libopenbsd.a
 
